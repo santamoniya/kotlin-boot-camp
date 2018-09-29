@@ -36,9 +36,9 @@ class PointsTest {
 
     @Test
     fun `point # izZero extension`() {
-        assertTrue(Point(0, 0).isZero())
+        assertTrue(Point().isZero())
 
-        assertFalse(Point(0, 100).isZero())
+        assertFalse(Point(y = 100).isZero())
     }
 
     @Test

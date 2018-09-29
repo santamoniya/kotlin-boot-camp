@@ -4,7 +4,7 @@ import junit.framework.TestCase.assertEquals
 import org.junit.Ignore
 import org.junit.Test
 
-@Ignore
+//@Ignore
 class BasicsTest {
 
     @Test

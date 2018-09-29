@@ -10,7 +10,7 @@ package io.rybalkinsd.kotlinbootcamp.practice
  * min(1 , 2) = 1
  * min(-16 , -1000) = -1000
  */
-fun min(a: Int, b: Int): Int = TODO()
+fun min(a: Int, b: Int): Int = if(a < b) a else b
 
 /**
  * Concatenate all strings from
@@ -22,4 +22,4 @@ fun min(a: Int, b: Int): Int = TODO()
  * concat(listOf("a", "b", "c", "d"), "") = "abcd
  * concat(listOf("1", "2", "3", "4"), " + ") = "1 + 2 + 3 + 4"
  */
-fun concat(values: List<String>, separator: String): String = TODO()
+fun concat(values: List<String>, separator: String): String = values.joinToString(separator)

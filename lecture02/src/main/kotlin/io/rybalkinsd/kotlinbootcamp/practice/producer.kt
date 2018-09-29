@@ -13,4 +13,4 @@ package io.rybalkinsd.kotlinbootcamp.practice
  * makeList(1, 0) = emptyList()
  *
  */
-fun makeList(from: Int, to: Int): List<Int> = TODO()
+fun makeList(from: Int, to: Int): List<Int> = (from..to).toList()
