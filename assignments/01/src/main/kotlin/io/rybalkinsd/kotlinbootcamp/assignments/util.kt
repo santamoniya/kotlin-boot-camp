@@ -14,4 +14,4 @@ fun max(values: List<Int>) = values.max()
  * @param values an argument. Assume values.length > 0.
  * @return the sum of all values.
  */
-fun sum(values: List<Int>) : Long = values.fold(0L) { a, b -> a + b}
+fun sum(values: List<Int>): Long = values.fold(0L) { a, b -> a + b }
