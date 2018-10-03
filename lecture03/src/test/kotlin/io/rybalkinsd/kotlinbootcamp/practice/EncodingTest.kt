@@ -36,12 +36,10 @@ class EncodingTest {
         assertTrue(reversedAssociation.containsKey("Charlie"))
     }
 
-
     @Test
     fun `decode # abc`() {
         assertEquals("abc", "AlfaBravoCharlie".decode())
     }
-
 
     @Test
     fun `decode # AlfaBravo 123Charlie`() {
