@@ -58,4 +58,8 @@ class EncodingTest {
         assertNull("Charli 1".decode())
     }
 
+    @Test
+    fun `decode # 1234`() {
+        assertEquals("12 34", "12 34".decode())
+    }
 }

@@ -10,7 +10,7 @@ val alphabet = setOf("Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Go
  * A mapping for english characters to phonetic alphabet.
  * [ a -> Alfa, b -> Bravo, ...]
  */
-val association: Map<Char, String> = TODO()
+val association: Map<Char, String> = alphabet.associateBy{ it[0].toLowerCase() }
 
 /**
  * Extension function for String which encode it according to `association` mapping
@@ -21,13 +21,13 @@ val association: Map<Char, String> = TODO()
  * "abc".encode() == "AlfaBravoCharlie"
  *
  */
-fun String.encode(): String = TODO()
+fun String.encode(): String  = map { it.toLowerCase() }.map{ association[it] ?: it }.joinToString("")
 
 /**
  * A reversed mapping for association
  * [ alpha -> a, bravo -> b, ...]
  */
-val reversedAssociation: Map<String, Char> = TODO()
+val reversedAssociation: Map<String, Char> = alphabet.associate { it to it[0] }
 
 
 /**
@@ -36,12 +36,29 @@ val reversedAssociation: Map<String, Char> = TODO()
  * @return encoded string or null if it is impossible to decode
  *
  * Example:
- * "alphabravocharlie".encode() == "abc"
+ * "alphabravocharlie".decode() == "abc"
  * "charliee".decode() == null
  *
  */
-fun String.decode(): String? = TODO()
-
-
-
-
+fun String.decode(): String? {
+    var str = this.toLowerCase()
+    var output = ""
+    while( str != ""){
+        val pattern = association[str[0]]
+        if(pattern != null){
+            if (pattern.length <= str.length) {
+                if (str.substring(0, pattern.length) == pattern.toLowerCase()){
+                    output += str[0]
+                    str = str.substring(pattern.length)
+                }
+                else return null
+            }
+            else return null
+        }
+        else {
+            output += str[0]
+            str = str.substring(1)
+        }
+    }
+    return output
+}
