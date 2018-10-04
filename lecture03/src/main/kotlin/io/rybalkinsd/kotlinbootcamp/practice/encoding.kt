@@ -44,12 +44,10 @@ fun String.decode(): String? {
     while (str != "") {
         val pattern = association[str[0]]
         if (pattern != null) {
-            if (pattern.length <= str.length) {
-                if (str.substring(0, pattern.length) == pattern.toLowerCase()) {
-                    output += str[0]
-                    str = str.substring(pattern.length)
-                } else return null
-            } else return null
+            if (pattern.length > str.length) return null
+            if (str.substring(0, pattern.length) != pattern.toLowerCase()) return null
+            output += str[0]
+            str = str.substring(pattern.length)
         } else {
             output += str[0]
             str = str.substring(1)
