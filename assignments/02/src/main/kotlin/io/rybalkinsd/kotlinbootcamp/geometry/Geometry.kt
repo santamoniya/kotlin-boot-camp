@@ -15,9 +15,7 @@ interface Collider {
  * 2D point with integer coordinates
  */
 class Point(val x: Int, val y: Int) : Collider {
-    override fun accept(visitor: Visitor): Boolean {
-        return visitor.visit(this)
-    }
+    override fun accept(visitor: Visitor): Boolean = visitor.visit(this)
 
     override fun isColliding(other: Collider): Boolean = other.accept(PointVisitor(this))
 

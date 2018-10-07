@@ -22,6 +22,7 @@ infix fun Bar.intersect(other: Bar): Boolean {
     for (segment1 in this.segments) {
         for (segment2 in other.segments)
             result = result || segment1 intersect segment2
+            if (result) return true
     }
     return result
 }
