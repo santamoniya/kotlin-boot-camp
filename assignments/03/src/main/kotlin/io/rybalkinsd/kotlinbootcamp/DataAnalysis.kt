@@ -21,6 +21,8 @@ sealed class Profile(
  * Declare classes for all data sources
  */
 class FacebookProfile(id: Long) : Profile(dataSource = DataSource.FACEBOOK, id = id)
+class VkProfile(id: Long) : Profile(dataSource = DataSource.VK, id = id)
+class LinkedinProfile(id: Long) : Profile(dataSource = DataSource.LINKEDIN, id = id)
 
 /**
  * Task #2
@@ -28,7 +30,9 @@ class FacebookProfile(id: Long) : Profile(dataSource = DataSource.FACEBOOK, id =
  *
  * TODO
  */
-val avgAge: Map<DataSource, Double> = emptyMap()
+
+
+
 
 /**
  * Task #3
@@ -44,32 +48,32 @@ val groupedProfiles: Map<Long, List<Profile>> = emptyMap()
  */
 val rawProfiles = listOf(
     RawProfile("""
-            fisrtName=alice,
+            firstName=alice,
             age=16,
             source=facebook
             """.trimIndent()
     ),
     RawProfile("""
-            fisrtName=Dent,
+            firstName=Dent,
             lastName=kent,
             age=88,
             source=linkedin
             """.trimIndent()
     ),
     RawProfile("""
-            fisrtName=alla,
+            firstName=alla,
             lastName=OloOlooLoasla,
             source=vk
             """.trimIndent()
     ),
     RawProfile("""
-            fisrtName=bella,
+            firstName=bella,
             age=36,
             source=vk
             """.trimIndent()
     ),
     RawProfile("""
-            fisrtName=angel,
+            firstName=angel,
             age=I will not tell you =),
             source=facebook
             """.trimIndent()
@@ -83,7 +87,7 @@ val rawProfiles = listOf(
             """.trimIndent()
     ),
     RawProfile("""
-            fisrtName=bob,
+            firstName=bob,
             lastName=John,
             age=47,
             source=linkedin
@@ -91,9 +95,12 @@ val rawProfiles = listOf(
     ),
     RawProfile("""
             lastName=kent,
-            fisrtName=dent,
+            firstName=dent,
             age=88,
             source=facebook
             """.trimIndent()
     )
 )
+val avgAge: Map<DataSource, Double> = makeProfiles(rawProfiles)
+        .groupBy { it.dataSource }
+        .mapValues { entry -> entry.value.asSequence().filter { it.age != null }.map { it.age!!.toDouble() }.average()}
