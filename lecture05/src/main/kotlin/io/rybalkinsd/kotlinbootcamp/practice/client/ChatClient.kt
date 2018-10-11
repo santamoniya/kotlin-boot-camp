@@ -3,9 +3,6 @@ package io.rybalkinsd.kotlinbootcamp.practice.client
 import com.kohttp.dsl.httpGet
 import com.kohttp.dsl.httpPost
 import com.kohttp.ext.eager
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
 
 object ChatClient {
     // Change to server url

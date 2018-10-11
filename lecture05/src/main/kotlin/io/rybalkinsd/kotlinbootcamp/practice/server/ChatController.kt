@@ -47,7 +47,7 @@ class ChatController {
     )
     fun online(): ResponseEntity<String> =
         if (usersOnline.isEmpty()) ResponseEntity.ok("There is not online users\n")
-        else ResponseEntity.ok(usersOnline.keys.joinToString { it + "\n"} )
+        else ResponseEntity.ok(usersOnline.keys.joinToString { it + "\n" })
 
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
