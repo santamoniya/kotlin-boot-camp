@@ -41,24 +41,52 @@ class ChatController {
      * curl -i localhost:8080/chat/online
      */
     @RequestMapping(
-        path = ["online"],
+        path = ["/online"],
         method = [RequestMethod.GET],
         produces = [MediaType.TEXT_PLAIN_VALUE]
     )
-    fun online(): ResponseEntity<String> = TODO()
+    fun online(): ResponseEntity<String> =
+        if (usersOnline.isEmpty()) ResponseEntity.ok("There is not online users\n")
+        else ResponseEntity.ok(usersOnline.keys.joinToString { it + "\n"} )
 
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
-    // TODO
+    @RequestMapping(
+            path = ["/logout"],
+            method = [RequestMethod.POST],
+            consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE]
+    )
+    fun logout(@RequestParam("name") name: String): ResponseEntity<String> =
+        if (!usersOnline.contains(name)) ResponseEntity.badRequest().body("Unknown user name: $name")
+        else {
+            usersOnline.remove(name)
+            messages += "[$name] logged out".also { log.info(it) }
+            ResponseEntity.ok("You are logged out\n")
+        }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
-    // TODO
+    @RequestMapping(
+            path = ["/say"],
+            method = [RequestMethod.POST],
+            consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE]
+    )
+    fun say(@RequestParam("name") name: String, @RequestParam("msg") msg: String): ResponseEntity<String> =
+        if (!usersOnline.contains(name)) ResponseEntity.badRequest().body("Unknown user name: $name\n")
+        else {
+            messages += "[$name]: $msg".also { log.info(it) }
+            ResponseEntity.ok().build()
+        }
 
     /**
      * curl -i localhost:8080/chat/chat
      */
-    // TODO
+    @RequestMapping(
+            path = ["/chat"],
+            method = [RequestMethod.GET],
+            produces = [MediaType.TEXT_PLAIN_VALUE]
+    )
+    fun chat(): ResponseEntity<String> = ResponseEntity.ok(messages.joinToString("") { it + "\n" })
 }
