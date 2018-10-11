@@ -25,25 +25,6 @@ class VkProfile(id: Long) : Profile(dataSource = DataSource.VK, id = id)
 class LinkedinProfile(id: Long) : Profile(dataSource = DataSource.LINKEDIN, id = id)
 
 /**
- * Task #2
- * Find the average age for each datasource (for profiles that has age)
- *
- * TODO
- */
-
-
-
-
-/**
- * Task #3
- * Group all user ids together with all profiles of this user.
- * We can assume users equality by : firstName & lastName & age
- *
- * TODO
- */
-val groupedProfiles: Map<Long, List<Profile>> = emptyMap()
-
-/**
  * Here are Raw profiles to analyse
  */
 val rawProfiles = listOf(
@@ -101,6 +82,21 @@ val rawProfiles = listOf(
             """.trimIndent()
     )
 )
-val avgAge: Map<DataSource, Double> = makeProfiles(rawProfiles)
+
+val profiles: List<Profile> = makeProfiles(rawProfiles)
+
+/**
+ * Task #2
+ * Find the average age for each datasource (for profiles that has age)
+ */
+val avgAge: Map<DataSource, Double> = profiles
         .groupBy { it.dataSource }
-        .mapValues { entry -> entry.value.asSequence().filter { it.age != null }.map { it.age!!.toDouble() }.average()}
+        .mapValues { entry -> entry.value.asSequence().filter { it.age != null }.map { it.age!!.toDouble() }.average() }
+
+/**
+ * Task #3
+ * Group all user ids together with all profiles of this user.
+ * We can assume users equality by : firstName & lastName & age
+ */
+val groupedProfiles: Map<Long, List<Profile>> = profiles.groupBy { listOf(it.age, it.lastName, it.firstName) }
+        .values.associateBy { IdGenerator.next() }
