@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 group = "io.rybalkinsd"
 version = "1.0-SNAPSHOT"
 
@@ -22,6 +21,19 @@ dependencies {
     testCompile("junit", "junit", "4.12")
 
     ktlint("com.github.shyiko", "ktlint", "0.28.0")
+}
+
+val fatJar = task("fatJar", type = Jar::class) {
+    baseName = "${project.name}-fat"
+    manifest {
+        attributes["Main-Class"] = "io.matveyeva.kotlinbootcamp.bullsandcows.MainKt"
+    }
+    from(
+            configurations.runtime.map {
+                if (it.isDirectory) it else zipTree(it)
+            }
+    )
+    with(tasks["jar"] as CopySpec)
 }
 
 tasks {
