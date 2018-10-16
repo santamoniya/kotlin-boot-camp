@@ -1,7 +1,6 @@
 package io.matveyeva.kotlinbootcamp.bullsandcows
 
 import java.io.FileNotFoundException
-import java.lang.NullPointerException
 import java.util.Random
 
 object BullsAndCowsApplication {
@@ -17,7 +16,7 @@ object BullsAndCowsApplication {
             var answer: String
             do {
                 println("Wanna play again? Y/N")
-                answer = readLine()?.toLowerCase() ?: throw NullPointerException()
+                answer = readLine()?.toLowerCase() ?: ""
             } while (answer != "n" && answer != "y")
             if (answer == "n") return
             if (answer == "y") continue

@@ -7,7 +7,7 @@ class Game(private val hiddenWord: String) {
     fun start() {
         while (attempts <= 10 && !isWon) {
             print("$attempts attempt > ")
-            val inputWord = readLine() ?: throw NullPointerException()
+            val inputWord = readLine() ?: ""
             if (inputWord.length != hiddenWord.length) {
                 println("Length of your word is not equals ${hiddenWord.length}")
                 continue
