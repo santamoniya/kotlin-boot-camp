@@ -1,6 +1,7 @@
 package io.rybalkinsd.kotlinbootcamp.server
 
 import io.rybalkinsd.kotlinbootcamp.util.logger
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -19,7 +20,7 @@ import java.time.format.DateTimeFormatter
 @RequestMapping("/chat")
 class ChatController {
     val log = logger()
-    val messages: Queue<String> = ConcurrentLinkedQueue()
+    val messages: Queue<Message> = ConcurrentLinkedQueue()
     val usersOnline: MutableMap<String, String> = ConcurrentHashMap()
 
     @RequestMapping(
@@ -49,7 +50,24 @@ class ChatController {
             method = [RequestMethod.GET],
             produces = [MediaType.TEXT_PLAIN_VALUE]
     )
-    fun online(): ResponseEntity<String> = TODO()
+    fun online(): ResponseEntity<String> = when {
+        usersOnline.isEmpty() -> ResponseEntity.badRequest().body("No logged in users")
+        else -> ResponseEntity(usersOnline.values.joinToString(", ", "logged in users: "), HttpStatus.OK)
+    }
+
+    fun painting(messages: Queue<Message>): String {
+        var str:String
+        for (msg in messages) {
+            //StringBuilder str = new StringBuilder();
+            str = "<span style=\"color:blue\">" +
+                    msg.time.toString().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) +
+                    " </span>" + "<span style=\"color:red\">" + msg.getUsr().getName() + " </span> " +
+                    "<span style=\"color:black\">" + Jsoup.clean(msg.getText(), Whitelist.relaxed()))
+            str.append(" </span><br />")
+        }
+        return str.toString()
+    }
+
 
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=MY_NAME"

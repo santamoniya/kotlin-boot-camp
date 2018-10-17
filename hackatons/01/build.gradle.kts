@@ -36,6 +36,7 @@ dependencies {
 
     testCompile("junit", "junit", "4.12")
     testCompile(spring("test"))
+    compile("org.jsoup","jsoup","1.10.3")
 
     ktlint("com.github.shyiko", "ktlint", "0.28.0")
 }
