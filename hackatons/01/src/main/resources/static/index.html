@@ -73,8 +73,9 @@
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
 
-        document.getElementById("nameform").style.display = 'block';
+        document.getElementById("header").style.display = 'block';
         document.getElementById("logout").style.display = 'none';
+        myName="";
     }
 
     function login() {
@@ -96,8 +97,8 @@
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
 
-        document.getElementById("nameform").style.display = 'none';
-        document.getElementById("logoutform").style.display = 'block';
+        document.getElementById("header").style.display = 'none';
+        document.getElementById("logout").style.display = 'block';
         document.getElementById("myName").innerHTML = '<p style="font-size: 160%; color: white;">You are: '+myName.substring(5)+'</p>';
     }
 
@@ -110,14 +111,10 @@
         $.ajax(settings).done(function (response) {
             $("#history").html(response.replace(/\n/g, "<br />"))
             $("#history").scrollTop($("#history")[0].scrollHeight);
-            loadOnlineUsr();
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
     }
-
-
-
 
     function say() {
         var msg = $('#msgform').serialize();
@@ -140,9 +137,10 @@
     }
 
 
-    document.getElementById("logoutform").style.display = 'none';
+    document.getElementById("logout").style.display = 'none';
     loadHistory();
     setInterval(loadHistory, 10000);
+    setInterval(loadOnlineUsr, 10000);
 
     window.onunload = function(){
         logout()
