@@ -9,7 +9,12 @@
 }
 .chat {
     background: lightgray;
-    font-family: "Courier New", Courier, monospace;
+    font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
+    font-size: 24px;
+    font-style: bold;
+    font-variant: normal;
+    font-weight: 700;
+    line-height: 26.4px;
     padding: 7px;
 }
 
