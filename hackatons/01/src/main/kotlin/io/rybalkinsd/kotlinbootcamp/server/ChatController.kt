@@ -85,7 +85,9 @@ class ChatController {
         !usersOnline.contains(name) -> ResponseEntity.badRequest().body("User is not logged in yet")
         else -> {
             usersOnline.remove(name)
-            messages += Message(name, "logged out").also { log.info(it.toString()) }
+            val message = Message(name, "logged out")
+            messages += message.also { log.info(it.toString()) }
+            addTextTohistory(message)
             ResponseEntity.ok().build()
         }
     }
@@ -122,7 +124,8 @@ class ChatController {
         return File("history.txt").readLines()
                 .map{str ->
                     val msg = gson.fromJson(str, Message::class.java)
-                    if (!usersOnline.contains(msg.name)) usersOnline[msg.name] = msg.name
+                    if (msg.msg == "logged in") usersOnline[msg.name] = msg.name
+                    if (msg.msg == "logged out") usersOnline.remove(msg.name)
                     paintMsg(msg)
                 }
                 .joinToString("")
