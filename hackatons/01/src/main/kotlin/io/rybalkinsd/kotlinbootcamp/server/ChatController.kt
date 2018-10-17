@@ -63,7 +63,7 @@ class ChatController {
             str += "<span style=\"color:blue\">" +
                     msg.time.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) +
                     " </span>" + "<span style=\"color:red\">" + msg.name+ " </span> " +
-                    "<span style=\"color:black\">" + Jsoup.clean(msg.msg, Whitelist.relaxed()) +" </span><br />"
+                    "<span style=\"color:blue\">" + Jsoup.clean(msg.msg, Whitelist.relaxed()) +" </span><br />"
         }
         return str
     }
