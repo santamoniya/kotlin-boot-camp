@@ -1,6 +1,8 @@
 package io.rybalkinsd.kotlinbootcamp.server
 
 import io.rybalkinsd.kotlinbootcamp.util.logger
+import org.jsoup.Jsoup
+import org.jsoup.safety.Whitelist
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
+import java.time.format.DateTimeFormatter
 import java.util.Queue
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -53,17 +56,16 @@ class ChatController {
         else -> ResponseEntity(usersOnline.values.joinToString(", ", "logged in users: "), HttpStatus.OK)
     }
 
-    fun painting(messages: Queue<Message>): String {
-        var str:String
+    fun paintMsg(messages: Queue<Message>): String {
+        var str:String = ""
         for (msg in messages) {
             //StringBuilder str = new StringBuilder();
-            str = "<span style=\"color:blue\">" +
-                    msg.time.toString().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) +
-                    " </span>" + "<span style=\"color:red\">" + msg.getUsr().getName() + " </span> " +
-                    "<span style=\"color:black\">" + Jsoup.clean(msg.getText(), Whitelist.relaxed()))
-            str.append(" </span><br />")
+            str += "<span style=\"color:blue\">" +
+                    msg.time.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) +
+                    " </span>" + "<span style=\"color:red\">" + msg.name+ " </span> " +
+                    "<span style=\"color:black\">" + Jsoup.clean(msg.msg, Whitelist.relaxed()) +" </span><br />"
         }
-        return str.toString()
+        return str
     }
 
 
@@ -97,5 +99,5 @@ class ChatController {
             produces = [MediaType.TEXT_PLAIN_VALUE]
     )
     @ResponseBody
-    fun history(): String = messages.joinToString(separator = "\n")
+    fun history(): String = paintMsg(messages)
 }
