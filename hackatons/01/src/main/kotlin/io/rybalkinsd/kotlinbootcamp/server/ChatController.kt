@@ -124,8 +124,6 @@ class ChatController {
         return File("history.txt").readLines()
                 .map{str ->
                     val msg = gson.fromJson(str, Message::class.java)
-                    if (msg.msg == "logged in") usersOnline[msg.name] = msg.name
-                    if (msg.msg == "logged out") usersOnline.remove(msg.name)
                     paintMsg(msg)
                 }
                 .joinToString("")
