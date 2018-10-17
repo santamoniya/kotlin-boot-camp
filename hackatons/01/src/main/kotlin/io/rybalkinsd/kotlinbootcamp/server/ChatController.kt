@@ -8,18 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
-import java.time.Instant
-import java.time.ZoneOffset
 import java.util.Queue
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
-import java.time.format.DateTimeFormatter
+
 
 @Controller
 @RequestMapping("/chat")
 class ChatController {
     val log = logger()
-    val messages: Queue<String> = ConcurrentLinkedQueue()
+    val messages: Queue<Message> = ConcurrentLinkedQueue()
     val usersOnline: MutableMap<String, String> = ConcurrentHashMap()
 
     @RequestMapping(
@@ -33,7 +31,7 @@ class ChatController {
         usersOnline.contains(name) -> ResponseEntity.badRequest().body("Already logged in")
         else -> {
             usersOnline[name] = name
-            messages += "[$name ${DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").withZone(ZoneOffset.UTC).format(Instant.now())}] logged in".also { log.info(it) }
+            messages += Message(name, "logged in").also { log.info(it.toString()) }
             ResponseEntity.ok().build()
         }
     }
@@ -67,7 +65,7 @@ class ChatController {
         name.isEmpty() -> ResponseEntity.badRequest().body("Name is too short")
         !usersOnline.contains(name) -> ResponseEntity.badRequest().body("User is not logged in yet")
         else -> {
-            messages += "[$name] $msg".also { log.info(it) }
+            messages += Message(name, msg).also { log.info(it.toString()) }
             ResponseEntity.ok().build()
         }
     }
