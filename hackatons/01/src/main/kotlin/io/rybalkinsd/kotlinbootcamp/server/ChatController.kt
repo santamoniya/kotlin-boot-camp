@@ -75,7 +75,20 @@ class ChatController {
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=MY_NAME"
      */
-    // TODO
+    @RequestMapping(
+            path = ["/logout"],
+            method = [RequestMethod.POST],
+            consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE]
+    )
+    fun logout(@RequestParam("name") name: String): ResponseEntity<String> = when {
+        name.isEmpty() -> ResponseEntity.badRequest().body("No name provided")
+        !usersOnline.contains(name) -> ResponseEntity.badRequest().body("User is not logged in yet")
+        else -> {
+            usersOnline.remove(name)
+            messages += Message(name, "logged out").also { log.info(it.toString()) }
+            ResponseEntity.ok().build()
+        }
+    }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=MY_NAME&msg=Hello everyone in this chat"
@@ -85,7 +98,7 @@ class ChatController {
             method = [RequestMethod.POST]
     )
     fun say(@RequestParam("name") name: String, @RequestParam("msg") msg: String): ResponseEntity<String> = when {
-        name.isEmpty() -> ResponseEntity.badRequest().body("Name is too short")
+        name.isEmpty() -> ResponseEntity.badRequest().body("No name provided")
         !usersOnline.contains(name) -> ResponseEntity.badRequest().body("User is not logged in yet")
         else -> {
             val message = Message(name, msg)
