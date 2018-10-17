@@ -1,5 +1,6 @@
 package io.rybalkinsd.kotlinbootcamp.server
 
+import com.google.gson.Gson
 import io.rybalkinsd.kotlinbootcamp.util.logger
 import org.jsoup.Jsoup
 import org.jsoup.safety.Whitelist
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
+import java.io.File
 import java.time.format.DateTimeFormatter
 import java.util.Queue
 import java.util.concurrent.ConcurrentHashMap
@@ -35,11 +37,19 @@ class ChatController {
         usersOnline.contains(name) -> ResponseEntity.badRequest().body("Already logged in")
         else -> {
             usersOnline[name] = name
-            messages += Message(name, "logged in").also { log.info(it.toString()) }
+            val message = Message(name, "logged in")
+            messages += message.also { log.info(it.toString()) }
+            addTextTohistory(message)
             ResponseEntity.ok().build()
         }
     }
 
+
+    fun addTextTohistory(msg: Message) {
+        val gson = Gson()
+        val jsonString = gson.toJson(msg)
+        File("history.txt").appendText("$jsonString\n")
+    }
     /**
      *
      * Well formatted sorted list of online users
@@ -56,17 +66,10 @@ class ChatController {
         else -> ResponseEntity(usersOnline.values.joinToString(", ", "logged in users: "), HttpStatus.OK)
     }
 
-    fun paintMsg(messages: Queue<Message>): String {
-        var str:String = ""
-        for (msg in messages) {
-            //StringBuilder str = new StringBuilder();
-            str += "<span style=\"color:blue\">" +
+    fun paintMsg(msg: Message): String = "<span style=\"color:blue\">" +
                     msg.time.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) +
                     " </span>" + "<span style=\"color:red\">" + msg.name+ " </span> " +
                     "<span style=\"color:black\">" + Jsoup.clean(msg.msg, Whitelist.relaxed()) +" </span><br />"
-        }
-        return str
-    }
 
 
     /**
@@ -85,7 +88,9 @@ class ChatController {
         name.isEmpty() -> ResponseEntity.badRequest().body("Name is too short")
         !usersOnline.contains(name) -> ResponseEntity.badRequest().body("User is not logged in yet")
         else -> {
-            messages += Message(name, msg).also { log.info(it.toString()) }
+            val message = Message(name, msg)
+            messages += message.also { log.info(it.toString()) }
+            addTextTohistory(message)
             ResponseEntity.ok().build()
         }
     }
@@ -99,5 +104,14 @@ class ChatController {
             produces = [MediaType.TEXT_PLAIN_VALUE]
     )
     @ResponseBody
-    fun history(): String = paintMsg(messages)
+    fun history(): String {
+        val gson = Gson()
+        return File("history.txt").readLines()
+                .map{str ->
+                    val msg = gson.fromJson(str, Message::class.java)
+                    if (!usersOnline.contains(msg.name)) usersOnline[msg.name] = msg.name
+                    paintMsg(msg)
+                }
+                .joinToString("")
+    }
 }
