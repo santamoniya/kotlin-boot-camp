@@ -26,10 +26,8 @@
 }
 
 #header {
-    background: #336666;
-    padding: 10px;
-    padding-bottom: 0;
-    padding-top:0;
+  background: #336666;
+  padding: 10px;
 }
 
 #logout {

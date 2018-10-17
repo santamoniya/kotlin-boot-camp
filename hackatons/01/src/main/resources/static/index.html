@@ -22,8 +22,8 @@
             </form>
         </div>
         <div id="logout" class="logout_form div_logout_form">
+            <div id="myName"></div>
             <form method="POST" id="logoutform" action="javascript:void(null);" onsubmit="logout()">
-                <input id="logout_name" name="name"  style="font-size:medium" type="text" value="" >
                 <button style="font-size:medium" type="submit">Logout</button>
             </form>
         </div>
@@ -35,7 +35,6 @@
         </div>
     </div>
 </div>
-</div>
 </body>
 </html>
 
@@ -43,6 +42,8 @@
 <script>
     var host = "localhost";
     var port = 8080;
+    var myName = "";
+
     function loadOnlineUsr() {
         var settings = {
             "crossDomain": true,
@@ -57,8 +58,29 @@
         });
     }
 
+     function logout() {
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/logout",
+            "data": myName
+        };
+
+        $.ajax(settings).done(function (response) {
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+
+        document.getElementById("nameform").style.display = 'block';
+        document.getElementById("logout").style.display = 'none';
+    }
+
     function login() {
         var name = $('#nameform').serialize();
+
+        myName=$('#nameform').serialize();
 
         var settings = {
             "method": "POST",
@@ -73,6 +95,10 @@
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
+
+        document.getElementById("nameform").style.display = 'none';
+        document.getElementById("logoutform").style.display = 'block';
+        document.getElementById("myName").innerHTML = '<p style="font-size: 160%; color: white;">You are: '+myName.substring(5)+'</p>';
     }
 
     function loadHistory() {
@@ -114,7 +140,14 @@
     }
 
 
-
+    document.getElementById("logoutform").style.display = 'none';
     loadHistory();
     setInterval(loadHistory, 10000);
+
+    window.onunload = function(){
+        logout()
+    };
+    window.onbeforeunload = function(){
+        logout()
+    }
 </script>
