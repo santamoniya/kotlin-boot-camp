@@ -35,6 +35,7 @@
 #logout {
   background: #336666;
   padding: 10px;
+  display: none;
 }
 
 button{

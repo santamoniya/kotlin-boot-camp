@@ -67,6 +67,7 @@
         };
 
         $.ajax(settings).done(function (response) {
+            loadOnlineUsr();
             loadHistory();
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -91,6 +92,7 @@
         };
 
         $.ajax(settings).done(function (response) {
+            loadOnlineUsr();
             loadHistory();
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -139,6 +141,7 @@
 
     document.getElementById("logout").style.display = 'none';
     loadHistory();
+    loadOnlineUsr();
     setInterval(loadHistory, 10000);
     setInterval(loadOnlineUsr, 10000);
 
