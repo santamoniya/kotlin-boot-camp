@@ -17,7 +17,6 @@ import java.util.Queue
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
 
-
 @Controller
 @RequestMapping("/chat")
 class ChatController {
@@ -111,7 +110,7 @@ class ChatController {
         val file = File("history.txt")
         file.createNewFile()
         return file.readLines()
-                .map{str ->
+                .map { str ->
                     val msg = gson.fromJson(str, Message::class.java)
                     paintMsg(msg)
                 }
@@ -126,6 +125,6 @@ class ChatController {
 
     private fun paintMsg(msg: Message): String =
             "<span style=\"color:blue\">" + msg.time +
-            " </span>" + "<span style=\"color:red\">" + msg.name+ " </span> " +
-            "<span style=\"color:black\">" + Jsoup.clean(msg.msg, Whitelist.relaxed()) +" </span><br />"
+            " </span>" + "<span style=\"color:red\">" + msg.name + " </span> " +
+            "<span style=\"color:black\">" + Jsoup.clean(msg.msg, Whitelist.relaxed()) + " </span><br />"
 }
