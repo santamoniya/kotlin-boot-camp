@@ -24,7 +24,7 @@ class ChatControllerTest {
 
     @Test
     fun `history test`() {
-        val  mockMvc: MockMvc = MockMvcBuilders
+        val mockMvc: MockMvc = MockMvcBuilders
                 .webAppContextSetup(context).build()
 
         mockMvc.perform(get("/chat/history"))
@@ -76,12 +76,10 @@ class ChatControllerTest {
 
         val result_logout = mockMvc.perform(get("/chat/online")
                 .contentType("text/plain")).andExpect(MockMvcResultMatchers.status().isOk)
-                .andDo { result -> log.info(result.response.contentAsString)   }.andReturn().response
+                .andDo { result -> log.info(result.response.contentAsString) }.andReturn().response
         Assert.assertEquals("User2", result_logout.contentAsString)
 
         mockMvc.perform(post("/chat/say").contentType("application/x-www-form-urlencoded")
                 .content("name=User2&msg=msgToTest")).andExpect(MockMvcResultMatchers.status().isOk)
-
-
     }
 }
