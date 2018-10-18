@@ -63,7 +63,7 @@ class ChatController {
     )
     fun online(): ResponseEntity<String> = when {
         usersOnline.isEmpty() -> ResponseEntity.badRequest().body("No logged in users")
-        else -> ResponseEntity(usersOnline.values.joinToString(",\n ", "logged in users:\n "), HttpStatus.OK)
+        else -> ResponseEntity(usersOnline.values.joinToString(",\n "), HttpStatus.OK)
     }
 
     fun paintMsg(msg: Message): String = "<span style=\"color:blue\">" +

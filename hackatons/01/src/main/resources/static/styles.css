@@ -1,5 +1,5 @@
 :root {
-    background: #336666;
+    background: gray;
 }
 
 .div_right {
@@ -8,8 +8,13 @@
 
 }
 .chat {
-    background: #99CCCC;
-    font-family: "Courier New", Courier, monospace;
+    background: lightgray;
+    font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
+    font-size: 24px;
+    font-style: bold;
+    font-variant: normal;
+    font-weight: 700;
+    line-height: 26.4px;
     padding: 7px;
 }
 
@@ -26,38 +31,24 @@
 }
 
 #header {
-    background: #336666;
+    background: gray;
     padding: 10px;
     padding-bottom: 0;
     padding-top:0;
 }
 
 #logout {
-  background: #336666;
+  background: gray;
   padding: 10px;
 }
 
 button{
   background-color: #68b12f;
-  background: -webkit-gradient(linear, left top, left bottom, from(#68b12f), to(#50911e));
-  background: -webkit-linear-gradient(top, #68b12f, #50911e);
-  background: -moz-linear-gradient(top, #68b12f, #50911e);
-  background: -ms-linear-gradient(top, #68b12f, #50911e);
-  background: -o-linear-gradient(top, #68b12f, #50911e);
-  background: linear-gradient(top, #68b12f, #50911e);
   border: 1px solid #509111;
   border-bottom: 1px solid #5b992b;
   border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  box-shadow: inset 0 1px 0 0 #9fd574;
-  -webkit-box-shadow: 0 1px 0 0 #9fd574 inset ;
-  -moz-box-shadow: 0 1px 0 0 #9fd574 inset;
-  -ms-box-shadow: 0 1px 0 0 #9fd574 inset;
-  -o-box-shadow: 0 1px 0 0 #9fd574 inset;
   color: white;
+  margin-top: 10px;
   font-weight: bold;
   padding: 6px 20px;
   text-align: center;
@@ -70,32 +61,12 @@ button:hover {
 button:active {
 border: 1px solid #20911e;
 box-shadow: 0 0 10px 5px #356b0b inset;
--webkit-box-shadow:0 0 10px 5px #356b0b inset ;
--moz-box-shadow: 0 0 10px 5px #356b0b inset;
--ms-box-shadow: 0 0 10px 5px #356b0b inset;
--o-box-shadow: 0 0 10px 5px #356b0b inset;
-
 }
 .sendbutton{
     background-color: #68b12f;
-    background: -webkit-gradient(linear, left top, left bottom, from(#68b12f), to(#50911e));
-    background: -webkit-linear-gradient(top, #68b12f, #50911e);
-    background: -moz-linear-gradient(top, #68b12f, #50911e);
-    background: -ms-linear-gradient(top, #68b12f, #50911e);
-    background: -o-linear-gradient(top, #68b12f, #50911e);
-    background: linear-gradient(top, #68b12f, #50911e);
     border: 1px solid #509111;
     border-bottom: 1px solid #5b992b;
     border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    -o-border-radius: 3px;
-    box-shadow: inset 0 1px 0 0 #9fd574;
-    -webkit-box-shadow: 0 1px 0 0 #9fd574 inset ;
-    -moz-box-shadow: 0 1px 0 0 #9fd574 inset;
-    -ms-box-shadow: 0 1px 0 0 #9fd574 inset;
-    -o-box-shadow: 0 1px 0 0 #9fd574 inset;
     color: white;
     font-weight: bold;
     padding: 6px 20px;
@@ -109,10 +80,6 @@ box-shadow: 0 0 10px 5px #356b0b inset;
   .sendbutton:active {
   border: 1px solid #20911e;
   box-shadow: 0 0 10px 5px #356b0b inset;
-  -webkit-box-shadow:0 0 10px 5px #356b0b inset ;
-  -moz-box-shadow: 0 0 10px 5px #356b0b inset;
-  -ms-box-shadow: 0 0 10px 5px #356b0b inset;
-  -o-box-shadow: 0 0 10px 5px #356b0b inset;
   }
 input{
   border-radius: 8px;
@@ -121,7 +88,7 @@ input{
 #body {
     padding: 10px;
     padding-top: 0;
-    padding-bottom: 30px; /* Height of the footer */
+    padding-bottom: 30px;
 }
 
 #footer {
@@ -129,11 +96,19 @@ input{
     width: 100%;
     height: 30px; /* Height of the footer */
     position: absolute;
-    bottom: 0px;
+    bottom: 5px;
+    left:10px;
 }
 
-.history_container {
-    text-align:left;
+#history{
+     position:absolute;
+     bottom:45px;
+     top:65px;
+     left:10px;
+     width:100%;
+     text-align:left;
+     overflow: scroll;
+
 }
 
 .div_history {
