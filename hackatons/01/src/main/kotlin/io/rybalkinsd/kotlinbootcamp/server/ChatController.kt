@@ -56,7 +56,7 @@ class ChatController {
     )
     fun online(): ResponseEntity<String> = when {
         usersOnline.isEmpty() -> ResponseEntity("No logged in users", HttpStatus.OK)
-        else -> ResponseEntity(usersOnline.values.joinToString(",\n ", "logged in users:\n "), HttpStatus.OK)
+        else -> ResponseEntity(usersOnline.values.joinToString("\n"), HttpStatus.OK)
     }
 
     /**
