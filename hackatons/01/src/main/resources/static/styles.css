@@ -40,6 +40,7 @@
 #logout {
   background: gray;
   padding: 10px;
+  display: none;
 }
 
 button{
