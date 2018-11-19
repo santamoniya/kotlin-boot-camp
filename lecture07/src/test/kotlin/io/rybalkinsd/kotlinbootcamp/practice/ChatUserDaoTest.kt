@@ -1,19 +1,18 @@
 package io.rybalkinsd.kotlinbootcamp.practice
 
 import io.rybalkinsd.kotlinbootcamp.dao.UserDao
+import io.rybalkinsd.kotlinbootcamp.dao.Users
 import io.rybalkinsd.kotlinbootcamp.db.DbConnector
 import io.rybalkinsd.kotlinbootcamp.model.User
 import junit.framework.TestCase
+import org.jetbrains.exposed.sql.Op
 import org.junit.Assert.assertTrue
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
-import kotlin.random.Random
 
 /**
  * Created by sergey on 3/25/17.
  */
-@Ignore
 class ChatUserDaoTest {
     val userDao = UserDao()
 
@@ -37,9 +36,8 @@ class ChatUserDaoTest {
 
     @Test
     fun `find lol`() {
-        userDao.insert(User(Random.nextInt(), "Lolita"))
-        val lols = userDao.getAllWhere("login like 'Lol%'")
-
+        userDao.insert(User(userNumber(), "Lolita${userNumber()}"))
+        val lols = userDao.getAllWhere(Op.build { Users.login like "Lol%" })
         assertTrue(
             lols.asSequence()
                 .map { it.login }
@@ -47,6 +45,9 @@ class ChatUserDaoTest {
         )
     }
 
-    fun userNumber(): Long = TODO()
-    fun dummyUser(): User = TODO()
+    fun userNumber(): Int = userDao.all.size
+    fun dummyUser(): User {
+        val num = userNumber()
+        return User(num, "login$num")
+    }
 }

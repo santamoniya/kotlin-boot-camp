@@ -8,10 +8,8 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 
-@Ignore
 class UserDaoTest {
 
     @Before
@@ -23,10 +21,10 @@ class UserDaoTest {
     fun `insert user`() {
         transaction {
             addLogger(StdOutSqlLogger)
-
+            val count = Users.selectAll().count()
             val id = Users.insert {
-                it[id] = 44
-                it[login] = "login44"
+                it[id] = count
+                it[login] = "login$count"
             } get Users.id
 
             println(id)
